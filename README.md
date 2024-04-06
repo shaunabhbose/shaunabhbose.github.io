@@ -1,5 +1,5 @@
-# TableTop Robot
-An autonomous wanderer robot that doesn't fall off a table using infrared light detection as a method to detect a ledge. 
+# Shaunabh Bose
+TKS Focus:  
 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
 |:--:|:--:|:--:|:--:|

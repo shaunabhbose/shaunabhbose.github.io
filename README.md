@@ -1,53 +1,53 @@
-Raspberry Pi Color Detection Project
-This project uses the Raspberry Pi and the Picamera2 module to detect colors in images captured by the camera.
+# Raspberry Pi Color Detection Project
+    This project uses the Raspberry Pi and the Picamera2 module to detect colors in images captured by the camera.
 
-Prerequisites
-Raspberry Pi with Picamera2 module
-Python 3
-OpenCV library
-Setup
-Install the required libraries by running the following commands:
-Edit
-Full Screen
-Copy code
-sudo apt update
-sudo apt install python3-picamera2 python3-opencv
-Clone the project repository:
-Edit
-Full Screen
-Copy code
-git clone https://github.com/yourusername/color-detection.git
-Usage
-Navigate to the project directory:
-Edit
-Full Screen
-Copy code
-cd color-detection
-Run the color detection script:
-Edit
-Full Screen
-Copy code
-python3 color_detection.py
-Code
-Here is the code for the color detection script:
+# Prerequisites
+    Raspberry Pi with Picamera2 module
+    Python 3
+    OpenCV library
+# Setup
+    Install the required libraries by running the following commands:
+    Edit
+    Full Screen
+    Copy code
+    sudo apt update
+    sudo apt install python3-picamera2 python3-opencv
+    Clone the project repository:
+    Edit
+    Full Screen
+    Copy code
+    git clone https://github.com/yourusername/color-detection.git
+    Usage
+    Navigate to the project directory:
+    Edit
+    Full Screen
+    Copy code
+    cd color-detection
+    Run the color detection script:
+    Edit
+    Full Screen
+    Copy code
+    python3 color_detection.py
+# Code
+    Here is the code for the color detection script:
 
-python
-Edit
-Full Screen
-Copy code
-import cv2
-import numpy as np
+    python
+    Edit
+    Full Screen
+    Copy code
+    import cv2
+    import numpy as np
 
-# Load the camera
-camera = cv2.VideoCapture(0)
+    #Load the camera
+    camera = cv2.VideoCapture(0)
 
-# Define the color range for blue (BGR)
-lower_blue = np.array([110, 50, 50])
-upper_blue = np.array([130, 255, 255])
-
-while True:
-    # Capture a frame from the camera
-    ret, frame = camera.read()
+    #Define the color range for blue (BGR)
+    lower_blue = np.array([110, 50, 50])
+    upper_blue = np.array([130, 255, 255])
+    
+    while True:
+        #Capture a frame from the camera
+        ret, frame = camera.read()
 
     # Convert the frame to HSV color space
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -67,9 +67,9 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the camera and close the windows
-camera.release()
-cv2.destroyAllWindows()
+    #Release the camera and close the windows
+    camera.release()
+    cv2.destroyAllWindows()
 This code captures frames from the camera, converts them to HSV color space, applies a color range filter to detect blue objects, and displays the original frame, the mask, and the detected blue objects.
 
 You can modify the lower_blue and upper_blue variables to detect different colors.

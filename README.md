@@ -1,10 +1,10 @@
 ### Raspberry Pi Color Detection Project
-    This project uses the Raspberry Pi and the Picamera2 module to detect colors in images captured by the camera.
+This project uses the Raspberry Pi and the Picamera2 module to detect colors in images captured by the camera.
 
 ### Prerequisites
-    * Raspberry Pi with Picamera2 module
-    * Python 3
-    * OpenCV library
+* Raspberry Pi with Picamera2 module
+* Python 3
+* OpenCV library
 # Setup
     Install the required libraries by running the following commands:
 ```bash    

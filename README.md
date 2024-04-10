@@ -1,27 +1,86 @@
-# Shaunabh Bose
-TKS Focus:  
+Raspberry Pi Color Detection Project
+This project uses the Raspberry Pi and the Picamera2 module to detect colors in images captured by the camera.
 
-| **Engineer** | **School** | **Area of Interest** | **Grade** |
-|:--:|:--:|:--:|:--:|
-| Shaunabh B | San Mateo High School | Electrical Engineering | Incoming Sophomore
+Prerequisites
+Raspberry Pi with Picamera2 module
+Python 3
+OpenCV library
+Setup
+Install the required libraries by running the following commands:
+Edit
+Full Screen
+Copy code
+sudo apt update
+sudo apt install python3-picamera2 python3-opencv
+Clone the project repository:
+Edit
+Full Screen
+Copy code
+git clone https://github.com/yourusername/color-detection.git
+Usage
+Navigate to the project directory:
+Edit
+Full Screen
+Copy code
+cd color-detection
+Run the color detection script:
+Edit
+Full Screen
+Copy code
+python3 color_detection.py
+Code
+Here is the code for the color detection script:
 
+python
+Edit
+Full Screen
+Copy code
+import cv2
+import numpy as np
 
+# Load the camera
+camera = cv2.VideoCapture(0)
 
-![My picture](https://res.cloudinary.com/dbuxx0uql/image/upload/v1658507278/imageedit_1_6629666651_mixafw.jpg)
+# Define the color range for blue (BGR)
+lower_blue = np.array([110, 50, 50])
+upper_blue = np.array([130, 255, 255])
 
+while True:
+    # Capture a frame from the camera
+    ret, frame = camera.read()
 
-  
-# Final Milestone
-My final milestone was to build my [Circuit Board](https://github.com/BlueStamp-Engineering-2022/Shaunabh_BSE_Project/blob/5280e6982704084b1eadb624ecee7482036e9ace/Screenshot%202022-07-23%20180512.png) and build the actual robot so that I can see if it works normally. To build the circuit board I just had to put the same connections using soldering from my breadboard to a perfboard, which is a copper board with pre-drilled holes on a grid to help make a prototype circuit board. My first prototype circuit board did not work since I had multiple shorts so I had to make another prototype which worked later. I used [online instructions](https://www.instructables.com/Tiny-Wanderer-A-Table-Top-Robot/) to make the structure of the robot. Something I enjoyed about reaching this milestone was to create my first successful circuit board and making the structure of the robot. Something I stuggled with was the dimensions since they were smaller than the appropriate size so I had to sand some parts to make my screws fit and also my first prototype for the first infrared sensors didn't work so I had to use premade infrared sensors.
+    # Convert the frame to HSV color space
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-[![Milestone 2](https://res.cloudinary.com/dbuxx0uql/image/upload/v1658357735/20220718_140007_qjumzk.jpg)](https://drive.google.com/file/d/1E8m4sUgNkT43bxaO3-BHYKa17fetpoio/view?ts=62e16545)
-*click on image for linked video*
-# First Milestone
-My first milestone was to create a working prototype using a breadboard. The breadboard contains the ATtiny microcontroller, servo motors, the infrared LEDs and phototransistors which act as the infrared sensor. I used this [schematic](https://github.com/BlueStamp-Engineering-2022/Shaunabh_BSE_Project/blob/f8d4d848aaaa821004db3e821adecc59988f2757/Schematic.pdf) to make the appropriate connections between components. I also used an arduino board to [code the function of the infrared sensors and the movement of the servos.](https://github.com/BlueStamp-Engineering-2022/Shaunabh_BSE_Project/blob/a1d07006e6e79339a3740421a67f5c24dbfb9e40/Tabletop_robot.ino) The infrared LEDs would normally shine onto a tabletop which would be picked up by the phototransistors which does the sensing part of the robot. If at any point, one of these transistors stops detecting infrared light it would tell the alternating servo to reverse so that it goes back to detecting infrared light. Something I enjoyed about making this is learning breadboarding and coding on arduino. Something I struggled with was breadboarding since I had no insight on this and it was my first time doing it and learning it was really fun my next steps would be to build my PCB and build the actual robot so that I can see if it works normally.
-[![Milestone 1 Wiring](https://res.cloudinary.com/dbuxx0uql/image/upload/v1657554964/20220708_112955_uhk9om.jpg)](https://www.youtube.com/watch?v=vzuAO6n93tA "Shaunabh Milestone 1")
-*click on image for linked video*
-# Starter Project
-My starter project is the TV-B-Gone. It switches off Televisions when you point it at the infrared receiver on the TV. The TV-B-Gone emits a pulse of infrared light that is invisible to the human eye, which is picked up by a television's receiver, and turns it off. The microcontroller, or the computer that helps the TV-B-Gone work, was pre-programmed. I soldered all of the components in the right places to assemble it. The switch at the bottom of the circuit board restarts the TV-B-Gone. The green LED next to it, flashes to show if the device is switched on. The resistor right above it reduces the current flowing to the VCC(Common collector voltage) and GND(ground) of the microcontroller. The ceramic oscillator on the circuit board vibrates to generate an oscillating signal of a specific freqency for timing the on/off pattern of the infrared light. The microcontroller then sends the current through the four transistors to amplify the current to send it to the LED placed in front of it. The LEDs then emit the infrared signal. During this project, something I struggled with is soldering good joints since this was my first soldering experience. Additionally, the original ceramic oscillator that the TV-B-Gone kit was sent with was defective which prevented it from working. The wires on the battery pack kept snapping, so I had to solder a new wire entirely. Something I enjoyed about this project is discovering fixes to the project even when it seemed like it wouldn't work again and soldering.
+    # Apply the color range filter to the HSV frame
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
 
-[![Shaunabh Starter Project](https://res.cloudinary.com/dbuxx0uql/image/upload/v1657728809/20220708_115729_lcatec.jpg)](https://www.youtube.com/watch?v=WTV-NTjOOtQ "Shaunabh Starter Project")
-*click on image for linked video*
+    # Bitwise-AND the mask with the original frame to get the blue objects
+    blue_objects = cv2.bitwise_and(frame, frame, mask=mask)
+
+    # Display the original frame, the mask, and the blue objects
+    cv2.imshow('Original Frame', frame)
+    cv2.imshow('Mask', mask)
+    cv2.imshow('Blue Objects', blue_objects)
+
+    # Exit the loop if the 'q' key is pressed
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Release the camera and close the windows
+camera.release()
+cv2.destroyAllWindows()
+This code captures frames from the camera, converts them to HSV color space, applies a color range filter to detect blue objects, and displays the original frame, the mask, and the detected blue objects.
+
+You can modify the lower_blue and upper_blue variables to detect different colors.
+
+Contributing
+Pull requests are welcome! If you have any suggestions or improvements, please open an issue or submit a pull request.
+
+License
+This project is licensed under the MIT License.
+
+This is a basic writeup for a Raspberry Pi project that uses the Picamera2 module to detect colors in images. You can modify the code to detect different colors or improve the color detection algorithm.
+
+I hope this helps! Let me know if you have any questions.
+
